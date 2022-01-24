@@ -1,0 +1,100 @@
+﻿@model IEnumerable<ENU.EJM.Web.Models.JobActivityVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JobRequestID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobRequestID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Reject", "Reject", new { id = item.JobRequestID }, new { @class = "btn btn-danger" }, new { @onclick = "someFunction(" + item.JobRequestID + ");" })*@
+                @{
+                    if (item.JobStatus == "Queue")
+                    {
+                        @Html.ActionLink("Accept", "Accept", new { id = item.JobRequestID }, new { @class = "btn btn-primary" })
+
+                        <a href='#' class='btn btn-danger' onclick="Edit(@item.JobRequestID)"><span class='glyphicon glyphicon-folder-close'> Reject</span></a>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.JobRequestID }, new { @class = "btn btn-success" })
+                    }
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+@*<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(m => m.StudentId, new { @id = "StuId" })
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.StudentName, new { @id = "StuName", @class = "form-control", @placeholder = "Name*" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control", @placeholder = "Email*" })
+                        </div>
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.DepartmentId, ViewBag.ListOfDepartment as SelectList, "--Select Dept--", new { @id = "DropDwn", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-danger" id="SaveStudentRecord">Save</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@

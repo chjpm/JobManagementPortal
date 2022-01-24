@@ -1,0 +1,124 @@
+﻿@model ENU.EJM.Web.Models.CreateJobModels
+@using ENU.EJM.Web.Models
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<link rel="stylesheet" type="text/css" href="~/datetimepicker-master/build/jquery.datetimepicker.min.css" />
+<script src="~/datetimepicker-master/jquery.js"></script>
+<script src="~/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+            <span class="glyphicon glyphicon-edit" style="color:black"></span> Edit Job Request: @Model.RequestID
+            <a href="/Job/Index" class="btn btn-info btn-sm pull-right">
+                <span class="glyphicon glyphicon-list"></span> Back To List
+            </a>
+        </h3>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("EditJob", "Job", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @*<h4>CreateJobModels</h4>*@
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.RequestID)
+            @*<div class="form-group">
+            @Html.LabelFor(model => model.RequestID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequestID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.RequestID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TelPhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TelPhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TelPhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.JobItem, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.JobItem, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownListFor(model => model.JobItem, new SelectList(Enum.GetValues(typeof(JobItem))), "Select a job item", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.JobItem, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.JobType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.JobItem, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownListFor(model => model.JobType, new SelectList(Enum.GetValues(typeof(JobType))), "Select a job type", new { @class = "form-control", @PlaceHolder = "Select a job type" })
+                    @Html.ValidationMessageFor(model => model.JobType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrefferedDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PrefferedDateTime, new { htmlAttributes = new { id = "datetimepicker", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PrefferedDateTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok"> Update</span>
+                    </button>
+                    <button type="reset" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-folder-close"> Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>
+<script>
+    jQuery('#datetimepicker').datetimepicker({
+        //format: 'd/m/Y H:i',
+        //format: 'Y/m/d H:i'
+        minDate: 0
+        //mask: true
+    });
+</script>

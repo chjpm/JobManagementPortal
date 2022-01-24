@@ -1,0 +1,539 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EJMModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EJMModelStoreContainer">
+    <EntitySet Name="AspNetRoles" EntityType="EJMModel.Store.AspNetRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUsers" EntityType="EJMModel.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblEngineers" EntityType="EJMModel.Store.tblEngineers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblJobActivities" EntityType="EJMModel.Store.tblJobActivities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblJobRequests" EntityType="EJMModel.Store.tblJobRequests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="vwUserInRoles" EntityType="EJMModel.Store.vwUserInRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="vwJobActivityLists" EntityType="EJMModel.Store.vwJobActivityLists" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserRoles" EntityType="EJMModel.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_EngineerID_AspNetUsersID" Association="EJMModel.Store.FK_EngineerID_AspNetUsersID">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="tblEngineers" EntitySet="tblEngineers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupervisorID_AspNetUsersID" Association="EJMModel.Store.FK_SupervisorID_AspNetUsersID">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="tblEngineers" EntitySet="tblEngineers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblJobActivity_tblEngineers" Association="EJMModel.Store.FK_tblJobActivity_tblEngineers">
+      <End Role="tblEngineers" EntitySet="tblEngineers" />
+      <End Role="tblJobActivity" EntitySet="tblJobActivities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblJobActivity_tblJobRequest" Association="EJMModel.Store.FK_tblJobActivity_tblJobRequest">
+      <End Role="tblJobRequest" EntitySet="tblJobRequests" />
+      <End Role="tblJobActivity" EntitySet="tblJobActivities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles" Association="EJMModel.Store.FK_AspNetUserRoles_AspNetRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers" Association="EJMModel.Store.FK_AspNetUserRoles_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="tblEngineers">
+    <Key>
+      <PropertyRef Name="EngineerID" />
+    </Key>
+    <Property Name="EngineerID" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="SupervisorID" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Description" Type="varchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="tblJobActivities">
+    <Key>
+      <PropertyRef Name="JobRequestID" />
+    </Key>
+    <Property Name="JobRequestID" Type="int" Nullable="false" />
+    <Property Name="JobStatus" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" Nullable="true" />
+    <Property Name="EngineerID" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblJobRequests">
+    <Key>
+      <PropertyRef Name="RequestID" />
+    </Key>
+    <Property Name="RequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="Address" Type="varchar(max)" Nullable="false" />
+    <Property Name="EmailAddress" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="PhoneNumber" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="JobItem" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="JobType" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" Nullable="true" />
+    <Property Name="PrefferedTime" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdated" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="vwUserInRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="UserName" />
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="RoleName" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="RoleID" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="vwJobActivityLists">
+    <Key>
+      <PropertyRef Name="RequestID" />
+      <PropertyRef Name="CustomerName" />
+      <PropertyRef Name="Address" />
+    </Key>
+    <Property Name="RequestID" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="Address" Type="varchar(max)" Nullable="false" />
+    <Property Name="JobStatus" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" Nullable="true" />
+    <Property Name="EngineerID" Type="nvarchar" Nullable="true" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="AspNetRoles_Id" />
+      <PropertyRef Name="AspNetUsers_Id" />
+    </Key>
+    <Property Name="AspNetRoles_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="AspNetUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <Association Name="FK_EngineerID_AspNetUsersID">
+    <End Role="AspNetUsers" Type="EJMModel.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="tblEngineers" Type="EJMModel.Store.tblEngineers" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tblEngineers">
+        <PropertyRef Name="EngineerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupervisorID_AspNetUsersID">
+    <End Role="AspNetUsers" Type="EJMModel.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="tblEngineers" Type="EJMModel.Store.tblEngineers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tblEngineers">
+        <PropertyRef Name="SupervisorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblJobActivity_tblEngineers">
+    <End Role="tblEngineers" Type="EJMModel.Store.tblEngineers" Multiplicity="1" />
+    <End Role="tblJobActivity" Type="EJMModel.Store.tblJobActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblEngineers">
+        <PropertyRef Name="EngineerID" />
+      </Principal>
+      <Dependent Role="tblJobActivity">
+        <PropertyRef Name="EngineerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblJobActivity_tblJobRequest">
+    <End Role="tblJobRequest" Type="EJMModel.Store.tblJobRequests" Multiplicity="1" />
+    <End Role="tblJobActivity" Type="EJMModel.Store.tblJobActivities" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="tblJobRequest">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="tblJobActivity">
+        <PropertyRef Name="JobRequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserRoles_AspNetRoles">
+    <End Role="AspNetRoles" Type="EJMModel.Store.AspNetRoles" Multiplicity="1" />
+    <End Role="AspNetUserRoles" Type="EJMModel.Store.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="AspNetRoles_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserRoles_AspNetUsers">
+    <End Role="AspNetUserRoles" Type="EJMModel.Store.AspNetUserRoles" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="EJMModel.Store.AspNetUsers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="AspNetUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EJMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tblEngineer" Relationship="Self.FK_EngineerID_AspNetUsersID" FromRole="AspNetUsers" ToRole="tblEngineers" />
+          <NavigationProperty Name="tblEngineers" Relationship="Self.FK_SupervisorID_AspNetUsersID" FromRole="AspNetUsers" ToRole="tblEngineers" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="tblEngineer">
+          <Key>
+            <PropertyRef Name="EngineerID" />
+          </Key>
+          <Property Name="EngineerID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupervisorID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_EngineerID_AspNetUsersID" FromRole="tblEngineers" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_SupervisorID_AspNetUsersID" FromRole="tblEngineers" ToRole="AspNetUsers" />
+          <NavigationProperty Name="tblJobActivities" Relationship="Self.FK_tblJobActivity_tblEngineers" FromRole="tblEngineers" ToRole="tblJobActivity" />
+        </EntityType>
+        <EntityType Name="tblJobActivity">
+          <Key>
+            <PropertyRef Name="JobRequestID" />
+          </Key>
+          <Property Name="JobRequestID" Type="Int32" Nullable="false" />
+          <Property Name="JobStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EngineerID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblEngineer" Relationship="Self.FK_tblJobActivity_tblEngineers" FromRole="tblJobActivity" ToRole="tblEngineers" />
+          <NavigationProperty Name="tblJobRequest" Relationship="Self.FK_tblJobActivity_tblJobRequest" FromRole="tblJobActivity" ToRole="tblJobRequest" />
+        </EntityType>
+        <EntityType Name="tblJobRequest">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JobItem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JobType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PrefferedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblJobActivity" Relationship="Self.FK_tblJobActivity_tblJobRequest" FromRole="tblJobRequest" ToRole="tblJobActivity" />
+        </EntityType>
+        <Association Name="FK_EngineerID_AspNetUsersID">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="tblEngineers" Type="Self.tblEngineer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblEngineers">
+              <PropertyRef Name="EngineerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupervisorID_AspNetUsersID">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="tblEngineers" Type="Self.tblEngineer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblEngineers">
+              <PropertyRef Name="SupervisorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblJobActivity_tblEngineers">
+          <End Role="tblEngineers" Type="Self.tblEngineer" Multiplicity="1" />
+          <End Role="tblJobActivity" Type="Self.tblJobActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblEngineers">
+              <PropertyRef Name="EngineerID" />
+            </Principal>
+            <Dependent Role="tblJobActivity">
+              <PropertyRef Name="EngineerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblJobActivity_tblJobRequest">
+          <End Role="tblJobRequest" Type="Self.tblJobRequest" Multiplicity="1" />
+          <End Role="tblJobActivity" Type="Self.tblJobActivity" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblJobRequest">
+              <PropertyRef Name="RequestID" />
+            </Principal>
+            <Dependent Role="tblJobActivity">
+              <PropertyRef Name="JobRequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="EJMEFConnection" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="tblEngineers" EntityType="Self.tblEngineer" />
+          <EntitySet Name="tblJobActivities" EntityType="Self.tblJobActivity" />
+          <EntitySet Name="tblJobRequests" EntityType="Self.tblJobRequest" />
+          <AssociationSet Name="FK_EngineerID_AspNetUsersID" Association="Self.FK_EngineerID_AspNetUsersID">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tblEngineers" EntitySet="tblEngineers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupervisorID_AspNetUsersID" Association="Self.FK_SupervisorID_AspNetUsersID">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tblEngineers" EntitySet="tblEngineers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblJobActivity_tblEngineers" Association="Self.FK_tblJobActivity_tblEngineers">
+            <End Role="tblEngineers" EntitySet="tblEngineers" />
+            <End Role="tblJobActivity" EntitySet="tblJobActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblJobActivity_tblJobRequest" Association="Self.FK_tblJobActivity_tblJobRequest">
+            <End Role="tblJobRequest" EntitySet="tblJobRequests" />
+            <End Role="tblJobActivity" EntitySet="tblJobActivities" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <FunctionImport Name="spCreateJobRequest">
+            <Parameter Name="CustomerName" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="EmailAddress" Mode="In" Type="String" />
+            <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+            <Parameter Name="JobItem" Mode="In" Type="String" />
+            <Parameter Name="JobType" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="PrefferedTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spDeleteJobRequest">
+          <Parameter Name="RequestID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spEditJobRequest">
+            <Parameter Name="RequestID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerName" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="EmailAddress" Mode="In" Type="String" />
+            <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+            <Parameter Name="JobItem" Mode="In" Type="String" />
+            <Parameter Name="JobType" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="PrefferedTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="vwUserInRoles" EntityType="EJMModel.vwUserInRole" />
+          <FunctionImport Name="spMapSupervisor">
+            <Parameter Name="SupID" Mode="In" Type="String" />
+            <Parameter Name="EngId" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vwJobActivityLists" EntityType="EJMModel.vwJobActivityList" />
+          <FunctionImport Name="spAcceptJobRequest">
+            <Parameter Name="JobRequestID" Mode="In" Type="Int32" />
+            <Parameter Name="EngineerID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spRejectJobRequest">
+            <Parameter Name="JobRequestID" Mode="In" Type="Int32" />
+            <Parameter Name="EngineerID" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="vwUserInRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="RoleName" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vwJobActivityList">
+          <Key>
+            <PropertyRef Name="RequestID" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="Address" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JobStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EngineerID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EJMModelStoreContainer" CdmEntityContainer="EJMEFConnection">
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(EJMModel.AspNetRole)">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(EJMModel.AspNetUser)">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblEngineers">
+      <EntityTypeMapping TypeName="IsTypeOf(EJMModel.tblEngineer)">
+        <MappingFragment StoreEntitySet="tblEngineers">
+          <ScalarProperty Name="EngineerID" ColumnName="EngineerID" />
+          <ScalarProperty Name="SupervisorID" ColumnName="SupervisorID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblJobActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(EJMModel.tblJobActivity)">
+        <MappingFragment StoreEntitySet="tblJobActivities">
+          <ScalarProperty Name="JobRequestID" ColumnName="JobRequestID" />
+          <ScalarProperty Name="JobStatus" ColumnName="JobStatus" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="EngineerID" ColumnName="EngineerID" />
+          <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblJobRequests">
+      <EntityTypeMapping TypeName="IsTypeOf(EJMModel.tblJobRequest)">
+        <MappingFragment StoreEntitySet="tblJobRequests">
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="JobItem" ColumnName="JobItem" />
+          <ScalarProperty Name="JobType" ColumnName="JobType" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="PrefferedTime" ColumnName="PrefferedTime" />
+          <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vwUserInRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(EJMModel.vwUserInRole)">
+        <MappingFragment StoreEntitySet="vwUserInRoles">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vwJobActivityLists">
+      <EntityTypeMapping TypeName="IsTypeOf(EJMModel.vwJobActivityList)">
+        <MappingFragment StoreEntitySet="vwJobActivityLists">
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="JobStatus" ColumnName="JobStatus" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="EngineerID" ColumnName="EngineerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="EJMModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
+      </EndProperty>
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

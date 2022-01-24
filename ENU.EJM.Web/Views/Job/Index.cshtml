@@ -1,0 +1,199 @@
+﻿@model IEnumerable<ENU.EJM.Web.Models.CreateJobModels>
+
+@{
+    ViewBag.Title = "Job List";
+}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        //start of the document ready function
+        //delcaring global variable to hold primary key value.
+        var pryEmpId;
+        $('.delete-prompt').click(function () {
+            pryEmpId = $(this).attr('id');
+            $('#myModal').modal('show');
+        });
+
+        $('.delete-confirm').click(function () {
+            if (pryEmpId != '') {
+                $.ajax({
+                    url: '/Job/Delete',
+                    data: { 'RequestID': pryEmpId },
+                    type: 'get',
+                    success: function (data) {
+                        if (data) {
+                            //now re-using the boostrap modal popup to show success message.
+                            //dynamically we will change background colour
+                            if ($('.modal-header').hasClass('alert-danger')) {
+                                $('.modal-header').removeClass('alert-danger').addClass('alert-success');
+                                //hide ok button as it is not necessary
+                                $('.delete-confirm').css('display', 'none');
+                            }
+                            $('.success-message').html('Record deleted successfully');
+                        }
+                    }, error: function (err) {
+                        if (!$('.modal-header').hasClass('alert-danger')) {
+                            $('.modal-header').removeClass('alert-success').addClass('alert-danger');
+                            $('.delete-confirm').css('display', 'none');
+                        }
+                        $('.success-message').html(err.statusText);
+                    }
+                });
+            }
+        });
+
+        //function to reset bootstrap modal popups
+        $("#myModal").on("hidden.bs.modal", function () {
+            $(".modal-header").removeClass(' ').addClass('alert-danger');
+            $('.delete-confirm').css('display', 'inline-block');
+            $('.success-message').html('').html('Are you sure you wish to delete this record ?');
+        });
+
+        //end of the docuement ready function
+    });
+</script>
+
+
+
+@*<p>
+        @Html.ActionLink("Create New Job Request", "CreateJobRequest")
+    </p>
+    <button type="button" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> Create New Job Request
+    </button>
+    <br />*@
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/jquery")
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        })
+    </script>
+}
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span class="glyphicon glyphicon-list"></span> Job Request List
+            <a href="/Job/CreateJobRequest" class="btn btn-success btn-sm pull-right">
+                <span class="glyphicon glyphicon-plus"></span> Create New Job Request
+            </a>
+        </h3>
+
+
+    </div>
+    <div class="panel-body">
+    </div>
+    <table id="example" class="table table-responsive">
+        <thead>
+            <tr class="bg-info">
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmailAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TelPhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JobItem)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JobType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PrefferedDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>@Html.DisplayName("Actions")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TelPhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobItem)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrefferedDateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.RequestID }) |
+                        @*<a href="/Job/Edit/item.RequestID"
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a> |*@
+                        @*@Html.ActionLink("Details", "Details", new { id = item.RequestID }) |*@
+                        @*@Html.ActionLink("Delete", "Delete/" + item.RequestID, new { /* id=item.PrimaryKey */ })*@
+                        @Html.ActionLink("Delete", "Delete", new { id = item.RequestID })
+                        @*<a href="javascript:void(0)" id="@item.RequestID" class="btn btn-danger delete-prompt">Delete</a>*@
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert alert-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Infromation Dialog</h4>
+            </div>
+            <div class="modal-body">
+                <p class="success-message">Are you sure you wish to delete this record ? </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success delete-confirm">Ok</button>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>*@
+
+<!--Bootstrap css cdn--->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!---Jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!--Bootstrap js cdn-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--script goes here...-->

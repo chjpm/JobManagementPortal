@@ -1,0 +1,103 @@
+﻿@using ENU.EJM.Web.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<style>
+    .text-on-pannel {
+        background: #fff none repeat scroll 0 0;
+        height: auto;
+        margin-left: 20px;
+        padding: 3px 5px;
+        position: absolute;
+        margin-top: -47px;
+        border: 1px solid #337ab7;
+        border-radius: 10px;
+    }
+
+    .panel {
+        /* for text on pannel */
+        margin-top: 27px !important;
+    }
+
+    .panel-body {
+        padding-top: 30px !important;
+    }
+
+    .text {
+        font-family: 'Segoe Print';
+        color: deepskyblue;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-11">
+
+        <div class="container">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <h3 class="text-on-pannel text-primary"><strong class="text-uppercase"> Log In </strong></h3>
+                    <section id="loginForm">
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <h4 class="text">Use a local account to log in...</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Log in" class="btn btn-primary" />
+                                    <input type="reset" value="Clear" class="btn btn-danger" />
+                                </div>
+                            </div>
+                            @*<p>
+                                    @Html.ActionLink("Register as a new user", "Register")
+                                </p>*@
+                            //Enable this once you have account confirmation enabled for password reset functionality
+                                <p>
+                                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                                </p>
+                        }
+                    </section>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>*@
+</div>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

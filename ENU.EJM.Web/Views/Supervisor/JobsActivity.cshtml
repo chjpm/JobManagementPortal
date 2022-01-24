@@ -1,0 +1,188 @@
+﻿@model IEnumerable<ENU.EJM.Web.Models.JobActivityVM>
+
+@{
+    ViewBag.Title = "JobsActivity";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/jquery")
+@section scripts{
+    <script>
+        //function Assign(x) {
+        //    alert("Row number is " + x.rowIndex())
+        //}
+        //$(document).ready(function () {
+        //    //function will be called on button click having id btnsave
+
+        //    $("#assign").click(function () {
+        //        var rowIndex = ($(this).index());
+        //        var table = $('#tblJobActivity').DataTable();
+        //        alert('You clicked row ' + ($(this).index()));
+        //        //$.ajax(
+        //        //    {
+        //        //        type: "POST", //HTTP POST Method
+        //        //        url: "Supervisor/CreateJobActivity", // Controller/View
+        //        //        data: { //Passing data
+        //        //            Name: this.City, //Reading text box values using Jquery
+        //        //            City: $("#txtAddress").val(),
+        //        //            Address: $("#txtcity").val()
+
+        //        //        }
+
+        //        //    });
+
+        //    });
+        //});
+
+        //$('#tblJobActivity').find('tr').click(function () {
+        //    alert('You clicked row ' + ($(this).index()));
+        //});
+
+        $(document).ready(function () {
+            $('#')
+        })
+        $(document).ready(function () {
+            $('#tblJobActivity').DataTable();
+        })
+    </script>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span class="glyphicon glyphicon-list"></span> Job Activity List
+            <a href="/Job/CreateJobRequest" class="btn btn-success btn-sm pull-right">
+                <span class="glyphicon glyphicon-plus"></span> Create New Job Request
+            </a>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <table id="tblJobActivity" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.JobRequestID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.JobStatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EngineerID)
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="setJobActivityList">
+                <tr id="LoadingStatus" style="color:red"></tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobRequestID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(modelItem => item.EngineerID, new SelectList(item.Engineer, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "ddlEmpID" })
+                            @*@Html.DropDownListFor(modelItem => item.EngineerID, item.Engineer, htmlAttributes: new { @class = "form-control", id = "ddlEngineer" })*@
+                        </td>
+                        <td>
+                            @{
+                                if (item.JobStatus == "New")
+                                {
+
+                                    <a href='#' class='btn btn-warning' onclick="Edit(@item.JobRequestID)"><span class='glyphicon glyphicon-edit'></span></a>
+                                }
+                                else
+                                {
+                                    <a href='#' class='btn btn-warning'><span class='glyphicon glyphicon-new-window'></span></a>
+                                }
+
+                            }
+                            @*@Html.ActionLink("Assign", "Assign", new { }, htmlAttributes: new { id="assign"}) |
+                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                        </td>
+                    </tr>
+                                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="MyModal" data-url="@Url.Action("")">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        @*@Html.HiddenFor(m => m.StudentId, new { @id = "StuId" })
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.StudentName, new { @id = "StuName", @class = "form-control", @placeholder = "Name*" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control", @placeholder = "Email*" })
+                        </div>
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.DepartmentId, ViewBag.ListOfDepartment as SelectList, "--Select Dept--", new { @id = "DropDwn", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-danger" id="SaveStudentRecord">Save</a>
+                        </div>*@
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Edit(JobRequestId) {
+        var url = "/Supervisor/AssignEngineer?id=" + JobRequestId;
+        $("#ModalTitle").html("Update Student Record");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                $('#SubmitForm').load('@Url.Action("AssignEngineer")');
+            }
+            //success: function (data) {
+            //    var obj = JSON.parse(data);
+            //    $("#StuId").val(obj.StudentId);
+            //    $("#StuName").val(obj.StudentName);
+            //    $("#Email").val(obj.Email);
+            //    $("#DropDwn option:selected").text(obj.tblDepartment.DepartmentName);
+            //    $("#DropDwn option:selected").val(obj.DepartmentId);
+
+            //}
+        })
+    }
+</script>
+

@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+@*<h2>@ViewBag.Title.</h2>*@
+<h2><b>@ViewBag.Message</b></h2>
+
+<h3><u>Business Requirements</u></h3>
+<p>
+    • Portal should have a option to login for Administrator, Call Center Employee, Supervisor, Engineer roles<br />
+    • Portal should allow the call center employee to create a job request against the service request<br />
+    • Portal should allow Administrator to assign Supervisors to group of engineers(1 Supervisor has 10
+    engineers)<br />
+    • Call center employee shall be able to create a job request or cancel job for new connection/service request<br />
+    • Supervisor shall be able to allocate jobs for the day to the engineers who will perform the job<br />
+    • Engineers shall receive the jobs allocated for the day on their mobile device<br />
+    • All updates done by the engineer (accept job, reaching site, completing job) must be displayed on the
+    Supervisor dashboard<br />
+    • The dashboard list should be sorted by engineer name and searchable via customer phone number<br />
+    • Call center user should be able to search any job by customer name/phone number and check for status<br />
+</p>
+
+    <h3><u>Case Background –Job Management</u></h3>
+<p>
+    •A leading broadband and cable TV company would like to take client request for new connections or service requests(wireless internet/D2H connections) and track the work done by engineers at customer sites<br />
+    •Following are important features of the portal<br />
+    •Portal to log request for new connections or service requests<br />
+    •Supervisors able to allocate jobs against request to engineers<br />
+    •Engineers viewing scheduled jobs on mobile device and updating the<br />
+    •Track the job and show real time updates.<br />
+    •It should work in Desktop/Laptop/Mobile devices.<br />
+</p>
+
+    <h3><u>Technology Requirements</u></h3>
+         <p>
+             • Asp.NET MVC for UI<br />
+             • Membership providers to be used for users and role creation<br />
+             • All transactions must happen using Web API.<br />
+             • Use Entity Framework for data access layer<br />
+         </p>
+
+
